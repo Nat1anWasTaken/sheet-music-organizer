@@ -11,6 +11,7 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@auth0/nextjs-auth0": "^4.5.0",
     "@chakra-ui/react": "^3.16.1",
     "@chakra-ui/theme": "^3.4.6",
     "@emotion/react": "^11.14.0",
