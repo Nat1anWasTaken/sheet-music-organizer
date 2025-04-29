@@ -7,6 +7,9 @@ export default async function SheetMusic(props: { preview_img_url: string; title
         src={"https://i0.wp.com/www.mypianomusicsheets.com/wp-content/uploads/2022/07/HAPPY-BIRTHDAY_piano_super-easy.jpg?fit=793%2C1123&ssl=1"}
         alt={"placeholder for image"}
         aspectRatio={3 / 4}
+        border={"solid"}
+        borderWidth={"1px"}
+        borderColor={"border"}
       />
       <Box width={"100%"} padding={"5px"}>
         <Heading size={"md"}>{props.title}</Heading>

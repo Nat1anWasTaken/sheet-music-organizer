@@ -12,7 +12,7 @@ export function MobileNavigationDrawer(props: { tabs: typeof tabs }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <Drawer.Root open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
+    <Drawer.Root size={"xs"} placement={"start"} open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
       <Drawer.Backdrop />
       <Drawer.Trigger>
         <Box className={"material-symbols-outlined"}>menu</Box>
