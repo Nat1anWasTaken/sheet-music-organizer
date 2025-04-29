@@ -56,7 +56,7 @@ function MobileNavigationDrawer(props: { tabs: typeof tabs }) {
 }
 
 export default function Navbar() {
-  const { user, setUser } = useState(null);
+  const [user, setUser] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
