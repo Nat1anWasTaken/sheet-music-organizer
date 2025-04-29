@@ -59,6 +59,7 @@ function MobileNavigationDrawer(props: { tabs: typeof tabs }) {
 export default function Navbar() {
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <Box bg={"bg.subtle"} px={4} boxShadow={"sm"} position={"sticky"} top={0} zIndex={999}>
@@ -68,9 +69,24 @@ export default function Navbar() {
           <MobileNavigationDrawer tabs={tabs} />
           {/* TODO: Logo */}
         </HStack>
-        <Heading as={"h1"} size={"lg"} display={{ base: "none", md: "inline" }}>
-          Sheet Music Organizer
-        </Heading>
+        <HStack gap={4}>
+          <Heading as={"h1"} size={"lg"} display={{ base: "none", md: "inline" }} color={"fg"}>
+            Sheet Music Organizer
+          </Heading>
+          {tabs.map((tab) => (
+            <Text
+              key={tab.href}
+              onClick={() => {
+                router.push(tab.href);
+              }}
+              color={tab.href === pathname ? "fg" : "fg.subtle"}
+              cursor={"pointer"}
+              _hover={{ color: "fg" }}
+            >
+              {tab.name}
+            </Text>
+          ))}
+        </HStack>
 
         {/* Right Part */}
         <HStack gap={4}>

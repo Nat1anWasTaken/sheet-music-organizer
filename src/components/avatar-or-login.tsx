@@ -5,7 +5,7 @@ import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/navigation";
 
 export default function AvatarOrLogin() {
-  const { user, isLoading } = useUser();
+  const { user } = useUser();
   const router = useRouter();
 
   return user ? (
@@ -19,6 +19,9 @@ export default function AvatarOrLogin() {
       <Portal>
         <Menu.Positioner>
           <Menu.Content>
+            <Menu.Item disabled value={"user_id"}>
+              <Text color={"fg.subtle"}>User ID: {user.sub}</Text>
+            </Menu.Item>
             <Menu.Item asChild value={"logout"}>
               <Link href={"/auth/logout"}>Logout</Link>
             </Menu.Item>
