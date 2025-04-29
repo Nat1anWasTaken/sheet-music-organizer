@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import { Provider } from "@/components/ui/provider";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/navbar/navbar";
 import "material-symbols/outlined.css";
 import { Box, Flex } from "@chakra-ui/react";
 
