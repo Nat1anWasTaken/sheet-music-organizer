@@ -1,8 +1,10 @@
-import { Box, Flex, Heading, HStack } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, HStack, Icon, LinkOverlay, Text } from "@chakra-ui/react";
 import { ColorModeButton } from "@/components/ui/color-mode";
 import AvatarOrLogin from "@/components/navbar/avatar-or-login";
 import { NavigationTabs } from "@/components/navbar/navigation-tabs";
 import { MobileNavigationDrawer } from "@/components/navbar/mobile-navigation-drawer";
+import { redirect } from "next/navigation";
+import UploadButton from "@/components/navbar/upload-button";
 
 export type Tab = { name: string; href: string };
 
@@ -22,14 +24,17 @@ export default function Navbar() {
           {/* TODO: Logo */}
         </HStack>
         <HStack gap={4} display={{ base: "none", md: "flex" }}>
-          <Heading as={"h1"} size={"lg"} display={{ base: "none", md: "inline" }} color={"fg"}>
-            Sheet Music Organizer
-          </Heading>
+          <LinkOverlay href={"/"}>
+            <Heading as={"h1"} size={"lg"} display={{ base: "none", md: "inline" }} color={"fg"}>
+              Sheet Music Organizer
+            </Heading>
+          </LinkOverlay>
           <NavigationTabs tabs={tabs} />
         </HStack>
 
         {/* Right Part */}
         <HStack gap={4}>
+          <UploadButton />
           <ColorModeButton />
           <AvatarOrLogin />
         </HStack>
