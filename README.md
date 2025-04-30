@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sheet Music Organizer
+
+A web application for organizing, uploading, and managing sheet music collections. This project was created as a learning exercise for Next.js and Chakra UI.
+
+## Project Overview
+
+Sheet Music Organizer allows users to:
+- Upload sheet music files (PDFs)
+- Automatically generate metadata for uploaded files with Google Gemini API
+- Browse and view sheet music collections
+- Organize sheet music by title, composer, and arrangement type
+
+## Technologies Used
+
+- **Frontend**:
+  - [Next.js 15](https://nextjs.org/) - React framework for server-side rendering and static site generation
+  - [React 19](https://react.dev/) - JavaScript library for building user interfaces
+  - [Chakra UI 3](https://chakra-ui.com/) - Component library for building accessible React applications
+  - [TypeScript](https://www.typescriptlang.org/) - Typed JavaScript
+  - [PDF-lib](https://pdf-lib.js.org/) - For PDF manipulation
+
+- **Authentication**:
+  - [Auth0](https://auth0.com/) - Authentication and authorization platform
+
+- **Database**:
+  - [MongoDB](https://www.mongodb.com/) - NoSQL database
+
+## Features
+
+- **Sheet Music Upload**: Drag and drop interface for uploading PDF files
+- **Metadata Generation**: Automatically extract and suggest metadata for uploaded files using Google Gemini API
+- **Responsive Design**: Works on desktop and mobile devices
+- **Authentication**: Secure user authentication with Auth0
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js (version 18 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/sheet-music-organizer-frontend.git
+cd sheet-music-organizer-frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up environment variables:
+Create a `.env.local` file in the root directory with the necessary variables.
+
+4. Run the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Learning Purpose
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This project was created to learn and practice:
+- Next.js App Router and server components
+- Chakra UI component library and styling system
+- TypeScript with React
+- Authentication integration with Auth0
+- File uploads and processing
+- MongoDB integration with Next.js
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+This is a personal learning project, but suggestions and feedback are welcome!
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+[MIT](https://choosealicense.com/licenses/mit/)
