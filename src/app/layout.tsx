@@ -4,6 +4,7 @@ import { Provider } from "@/components/ui/provider";
 import Navbar from "@/components/navbar/navbar";
 import "material-symbols/outlined.css";
 import { Box, Flex } from "@chakra-ui/react";
+import { Toaster } from "@/components/ui/toaster";
 
 const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               {children}
             </Box>
           </Flex>
+          <Toaster />
         </Provider>
       </body>
     </html>

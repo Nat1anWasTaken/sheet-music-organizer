@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 const FASTAPI_URL = process.env.FASTAPI_SERVER_URL!;
 
 const methodHandler = async (req: NextRequest, context: { params: { path: string[] } }) => {
-  const { path } = await context.params;
+  const { path } = context.params;
   return await proxyRequest(req, path);
 };
 

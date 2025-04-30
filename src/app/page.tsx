@@ -1,4 +1,4 @@
-import SheetMusic from "@/components/sheet-music";
+import Arrangement from "@/components/arrangement";
 import { Box, Center, Flex, Heading } from "@chakra-ui/react";
 
 export default function Home() {
@@ -8,7 +8,7 @@ export default function Home() {
         <Heading>Featured</Heading>
         <Flex gap={"4"} wrap={"wrap"}>
           {Array.from({ length: 20 }, (_, index) => (
-            <SheetMusic
+            <Arrangement
               key={index}
               preview_img_url={"https://i0.wp.com/www.mypianomusicsheets.com/wp-content/uploads/2022/07/HAPPY-BIRTHDAY_piano_super-easy.jpg?fit=793%2C1123&ssl=1"}
               title={"Sheet Name"}

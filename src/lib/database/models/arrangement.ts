@@ -17,6 +17,9 @@ export default class ArrangementModel {
     public visibility: Visibility,
     public uploaded_at: Date,
     public uploaded_by: string,
+    public title: string,
+    public composers: string[],
+    public arrangement_type: string,
     public parts: Part[],
   ) {
     this.collection = this.database.collection(ArrangementModel.collection_name);
