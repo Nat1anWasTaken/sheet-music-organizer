@@ -25,9 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Provider>
           <Flex direction={"column"} height={"100vh"}>
             <Navbar></Navbar>
-            <Box flex={"1"} overflowY={"auto"}>
-              {children}
-            </Box>
+            <Box flex={"1"}>{children}</Box>
           </Flex>
           <Toaster />
         </Provider>

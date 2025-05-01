@@ -17,7 +17,7 @@ export default function Dropzone(props: { fileUpload: ReturnType<typeof useFileU
               <Box color="fg.muted">.png, .jpg up to 5MB</Box>
             </>
           ) : (
-            <Flex justifyContent={"flex-start"} gap={4} width={"full"} height={"full"}>
+            <Flex justifyContent={"flex-start"} gap={4} width={"full"} height={"full"} wrap={"wrap"}>
               {props.fileUpload.acceptedFiles.map((file) => (
                 <FileUpload.Item key={file.name} file={file} aspectRatio={"square"} w={"24"} h={"24"} onClick={(e) => e.stopPropagation()}>
                   <VStack justify={"center"}>
