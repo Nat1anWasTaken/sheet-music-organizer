@@ -1,6 +1,7 @@
 "use client";
 
-import { Box, FileUpload, Flex, Float, Icon, useFileUpload, VStack } from "@chakra-ui/react";
+import { Box, FileUpload, Flex, Icon, useFileUpload } from "@chakra-ui/react";
+import FileItem from "./file-item";
 
 export default function Dropzone(props: { fileUpload: ReturnType<typeof useFileUpload> }) {
   return (
@@ -8,7 +9,7 @@ export default function Dropzone(props: { fileUpload: ReturnType<typeof useFileU
       <FileUpload.HiddenInput />
       <FileUpload.Dropzone>
         <FileUpload.DropzoneContent>
-          {props.fileUpload.acceptedFiles.length == 0 ? (
+          {props.fileUpload.acceptedFiles.length + props.fileUpload.rejectedFiles.length == 0 ? (
             <>
               <Icon size="md" color="fg.muted">
                 <Box className={"material-symbols-outlined"}>upload</Box>
@@ -18,19 +19,11 @@ export default function Dropzone(props: { fileUpload: ReturnType<typeof useFileU
             </>
           ) : (
             <Flex justifyContent={"flex-start"} gap={4} width={"full"} height={"full"} wrap={"wrap"}>
-              {props.fileUpload.acceptedFiles.map((file) => (
-                <FileUpload.Item key={file.name} file={file} aspectRatio={"square"} w={"24"} h={"24"} onClick={(e) => e.stopPropagation()}>
-                  <VStack justify={"center"}>
-                    <FileUpload.ItemPreview />
-                    <FileUpload.ItemName />
-                  </VStack>
-
-                  <Float placement="top-end">
-                    <FileUpload.ItemDeleteTrigger>
-                      <Box className={"material-symbols-outlined"}>close</Box>
-                    </FileUpload.ItemDeleteTrigger>
-                  </Float>
-                </FileUpload.Item>
+              {props.fileUpload.acceptedFiles.map((file, index) => (
+                <FileItem key={index} file={file} accepted={true} />
+              ))}
+              {props.fileUpload.rejectedFiles.map((file, index) => (
+                <FileItem key={index} file={file.file} accepted={false} />
               ))}
             </Flex>
           )}
