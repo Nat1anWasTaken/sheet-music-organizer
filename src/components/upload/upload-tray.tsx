@@ -73,7 +73,10 @@ export default function UploadTray() {
         method: "POST",
         body: form,
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        toaster.create({ type: "error", description: JSON.stringify(await res.json()) });
+        throw new Error(`HTTP ${res.status}`);
+      }
       const data: {
         title: string;
         composers: string[];
