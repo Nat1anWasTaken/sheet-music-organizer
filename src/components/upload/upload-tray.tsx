@@ -43,7 +43,7 @@ export async function splitPdfByParts(mergedPdfBytes: Uint8Array | ArrayBuffer, 
 export default function UploadTray() {
   const fileUpload = useFileUpload({
     maxFiles: 20,
-    maxFileSize: 5 * 1024 * 1024,
+    maxFileSize: 100 * 1024 * 1024,
     accept: "application/pdf",
   });
 

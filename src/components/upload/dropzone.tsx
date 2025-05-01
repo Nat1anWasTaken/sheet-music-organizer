@@ -14,7 +14,7 @@ export default function Dropzone(props: { fileUpload: ReturnType<typeof useFileU
                 <Box className={"material-symbols-outlined"}>upload</Box>
               </Icon>
               <Box>Drag and drop files here</Box>
-              <Box color="fg.muted">.png, .jpg up to 5MB</Box>
+              <Box color="fg.muted">.pdf up to 100 MB per file</Box>
             </>
           ) : (
             <Flex justifyContent={"flex-start"} gap={4} width={"full"} height={"full"} wrap={"wrap"}>
