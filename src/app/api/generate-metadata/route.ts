@@ -86,7 +86,7 @@ As your assistant, I will provide you with a PDF file containing sheet music. Pl
   - **end_page**: The ending page number of this part in the document.
 `;
   const payload = {
-    model: "gemini-2.0-flash-lite",
+    model: "gemini-2.0-flash",
     systemInstruction: { role: "system", parts: [{ text: systemPrompt }] },
     contents: [
       { role: "user", parts: [{ fileData: { fileUri, mimeType } }] },
