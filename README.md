@@ -25,9 +25,9 @@ Sheet Music Organizer allows users to:
 - **Database**:
   - [MongoDB](https://www.mongodb.com/) - NoSQL database
 
-## Features
+## Implemented Features
 
-- **Sheet Music Upload**: Drag and drop interface for uploading PDF files
+- **Sheet Music Upload Interface**: Drag and drop interface for uploading PDF files
 - **Metadata Generation**: Automatically extract and suggest metadata for uploaded files using Google Gemini API
 - **Responsive Design**: Works on desktop and mobile devices
 - **Authentication**: Secure user authentication with Auth0
