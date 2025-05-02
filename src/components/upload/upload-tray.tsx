@@ -19,7 +19,7 @@ export default function UploadTray() {
 
   const confirmMergeDialog = useDialog();
 
-  const { generating, generateMetadata } = useMetadataGenerator({
+  const { generationStatus, generateMetadata } = useMetadataGenerator({
     files: fileUpload.acceptedFiles,
     onSuccess: (data) => {
       setTitle(data.title);
@@ -43,7 +43,7 @@ export default function UploadTray() {
               title={title}
               composers={composers}
               arrangementType={arrangementType}
-              generating={generating}
+              generationStatus={generationStatus}
               onTitleChange={(e) => setTitle(e.target.value)}
               onComposersChange={(e) => setComposers(e.target.value)}
               onArrangementTypeChange={(e) => setArrangementType(e.target.value)}

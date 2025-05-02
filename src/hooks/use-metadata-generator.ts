@@ -18,8 +18,10 @@ interface MetadataResponse {
   parts: PartInformation[];
 }
 
+export type GenerationStatus = "idle" | "merging_file" | "uploading" | "waiting_for_response";
+
 export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMetadataGeneratorProps) {
-  const [generating, setGenerating] = useState(false);
+  const [generationStatus, setGenerationStatus] = useState<GenerationStatus>("idle");
 
   const generateMetadata = async () => {
     if (files.length === 0) {
@@ -27,7 +29,7 @@ export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMet
       return;
     }
 
-    setGenerating(true);
+    setGenerationStatus("merging_file");
 
     try {
       const mergedPdfBytes = await mergePDFs(files);
@@ -36,10 +38,16 @@ export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMet
       const form = new FormData();
       form.append("files", mergedFile);
 
-      const res = await fetch("/api/generate-metadata", {
+      setGenerationStatus("uploading");
+
+      const responsePromise = fetch("/api/generate-metadata", {
         method: "POST",
         body: form,
       });
+
+      setGenerationStatus("waiting_for_response");
+
+      const res = await responsePromise;
 
       if (!res.ok) {
         toaster.create({ type: "error", description: JSON.stringify(await res.json()) });
@@ -61,12 +69,12 @@ export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMet
       console.error(err);
       toaster.create({ type: "error", description: "Something is wrong, try again later." });
     } finally {
-      setGenerating(false);
+      setGenerationStatus("idle");
     }
   };
 
   return {
-    generating,
+    generationStatus,
     generateMetadata,
   };
 }

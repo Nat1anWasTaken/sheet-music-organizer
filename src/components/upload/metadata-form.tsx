@@ -1,13 +1,14 @@
 "use client";
 
 import { Button, Field, Fieldset, HStack, Input } from "@chakra-ui/react";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useMemo } from "react";
+import { GenerationStatus } from "@/hooks/use-metadata-generator";
 
 interface MetadataFormProps {
   title: string;
   composers: string;
   arrangementType: string;
-  generating: boolean;
+  generationStatus: GenerationStatus;
   onTitleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onComposersChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onArrangementTypeChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -15,7 +16,30 @@ interface MetadataFormProps {
   onUploadClick: () => void;
 }
 
-export default function MetadataForm({ title, composers, arrangementType, generating, onTitleChange, onComposersChange, onArrangementTypeChange, onGenerateClick, onUploadClick }: MetadataFormProps) {
+export default function MetadataForm({
+  title,
+  composers,
+  arrangementType,
+  generationStatus,
+  onTitleChange,
+  onComposersChange,
+  onArrangementTypeChange,
+  onGenerateClick,
+  onUploadClick,
+}: MetadataFormProps) {
+  const { isGenerating, generationStatusText } = useMemo(
+    () => ({
+      isGenerating: ["merging_file", "uploading", "waiting_for_response"].includes(generationStatus),
+      generationStatusText: {
+        idle: "Generate Metadata with AI",
+        merging_file: "Merging files...",
+        uploading: "Uploading...",
+        waiting_for_response: "Waiting for response...",
+      }[generationStatus],
+    }),
+    [generationStatus],
+  );
+
   return (
     <Fieldset.Root>
       <Fieldset.Content>
@@ -38,8 +62,8 @@ export default function MetadataForm({ title, composers, arrangementType, genera
       </Fieldset.Content>
 
       <HStack gap={"4"} justify={"flex-end"}>
-        <Button variant={"subtle"} loading={generating} loadingText={"Generating..."} onClick={onGenerateClick}>
-          Generate
+        <Button variant={"subtle"} loading={isGenerating} loadingText={generationStatusText} onClick={onGenerateClick}>
+          {generationStatusText}
         </Button>
         <Button onClick={onUploadClick}>Upload</Button>
       </HStack>
