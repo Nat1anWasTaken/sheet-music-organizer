@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toaster } from "@/components/ui/toaster";
 import { mergePDFs, splitPdfByParts } from "@/lib/pdf/utils";
-import { PartInformation } from "@/app/api/generate-metadata/route";
+import { PartInformation } from "@/app/api/utils/generate-metadata/route";
 
 interface UseMetadataGeneratorProps {
   files: File[];
@@ -40,7 +40,7 @@ export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMet
 
       setGenerationStatus("uploading");
 
-      const responsePromise = fetch("/api/generate-metadata", {
+      const responsePromise = fetch("/api/utils/generate-metadata", {
         method: "POST",
         body: form,
       });

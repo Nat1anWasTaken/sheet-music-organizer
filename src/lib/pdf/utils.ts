@@ -1,7 +1,7 @@
 "use client";
 
 import { PDFDocument } from "pdf-lib";
-import { PartInformation } from "@/app/api/generate-metadata/route";
+import { PartInformation } from "@/app/api/utils/generate-metadata/route";
 
 /**
  * Merges multiple PDF files into a single PDF
