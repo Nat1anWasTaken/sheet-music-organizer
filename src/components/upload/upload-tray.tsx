@@ -1,8 +1,8 @@
 "use client";
-import { Box, useDialog, useFileUpload, VStack } from "@chakra-ui/react";
+import { Box, Dialog, FileUpload, useDialog, useFileUpload, VStack } from "@chakra-ui/react";
 import Dropzone from "@/components/upload/dropzone";
 import { useState } from "react";
-import ConfirmMergeDialog from "@/components/upload/confirm-merge-dialog";
+import ConfirmDialog from "@/components/confirm-dialog";
 import { useMetadataGenerator } from "@/hooks/use-metadata-generator";
 import MetadataForm from "@/components/upload/metadata-form";
 
@@ -18,6 +18,7 @@ export default function UploadTray() {
   const [arrangementType, setArrangementType] = useState("");
 
   const confirmMergeDialog = useDialog();
+  const confirmUploadDialog = useDialog();
 
   const { generationStatus, generateMetadata } = useMetadataGenerator({
     files: fileUpload.acceptedFiles,
@@ -27,10 +28,11 @@ export default function UploadTray() {
       setArrangementType(data.arrangement_type);
     },
     onFilesUpdate: (newFiles) => {
-      // Replace the files in the fileUpload
       fileUpload.acceptedFiles.splice(0, fileUpload.acceptedFiles.length, ...newFiles);
     },
   });
+
+  const uploadFiles = () => {};
 
   return (
     <Box width={{ base: "full", md: "xl" }} border={"solid"} borderWidth={"1px"} borderColor={"border"} p={4} rounded={"md"}>
@@ -48,9 +50,39 @@ export default function UploadTray() {
               onComposersChange={(e) => setComposers(e.target.value)}
               onArrangementTypeChange={(e) => setArrangementType(e.target.value)}
               onGenerateClick={() => confirmMergeDialog.setOpen(true)}
-              onUploadClick={() => console.log("Upload clicked")}
+              onUploadClick={() => confirmUploadDialog.setOpen(true)}
             />
-            <ConfirmMergeDialog value={confirmMergeDialog} confirmCallback={generateMetadata} />
+            <ConfirmDialog value={confirmMergeDialog} confirmCallback={generateMetadata}>
+              <Dialog.Header>
+                <Dialog.Title>Are you sure?</Dialog.Title>
+              </Dialog.Header>
+              <Dialog.Body>
+                <Dialog.Description>This will merge all your files into one file and generate metadata for you.</Dialog.Description>
+              </Dialog.Body>
+            </ConfirmDialog>
+            <ConfirmDialog value={confirmUploadDialog} confirmCallback={uploadFiles}>
+              <Dialog.Header>
+                <Dialog.Title>Are you sure you want to upload these files?</Dialog.Title>
+              </Dialog.Header>
+              <Dialog.Body>
+                <FileUpload.RootProvider value={fileUpload}>
+                  <Box overflowY={"scroll"} maxHeight={"lg"}>
+                    <FileUpload.Context>
+                      {(context) =>
+                        context.acceptedFiles.map((file) => (
+                          <FileUpload.Item key={file.name} file={file}>
+                            <FileUpload.ItemPreview />
+                            <FileUpload.ItemName />
+                            <FileUpload.ItemSizeText />
+                            <FileUpload.ItemDeleteTrigger />
+                          </FileUpload.Item>
+                        ))
+                      }
+                    </FileUpload.Context>
+                  </Box>
+                </FileUpload.RootProvider>
+              </Dialog.Body>
+            </ConfirmDialog>
           </>
         ) : (
           <></>

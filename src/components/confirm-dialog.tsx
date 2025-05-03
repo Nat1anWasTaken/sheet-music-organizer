@@ -1,7 +1,7 @@
 import { Button, Dialog, Portal, UseDialogReturn } from "@chakra-ui/react";
-import { useRef } from "react";
+import { ReactNode, useRef } from "react";
 
-export default function ConfirmMergeDialog(props: { value: UseDialogReturn; confirmCallback: () => void }) {
+export default function ConfirmDialog(props: { value: UseDialogReturn; confirmCallback: () => void; children: ReactNode }) {
   const ref = useRef(null);
 
   return (
@@ -10,15 +10,10 @@ export default function ConfirmMergeDialog(props: { value: UseDialogReturn; conf
         <Dialog.Backdrop />
         <Dialog.Positioner>
           <Dialog.Content>
-            <Dialog.Header>
-              <Dialog.Title>Are you sure?</Dialog.Title>
-            </Dialog.Header>
-            <Dialog.Body>
-              <Dialog.Description>This will automatically split all your files.</Dialog.Description>
-            </Dialog.Body>
+            {props.children}
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button variant={"outline"}>No</Button>
+                <Button variant={"outline"}>Cancel</Button>
               </Dialog.ActionTrigger>
               <Button
                 ref={ref}
@@ -27,7 +22,7 @@ export default function ConfirmMergeDialog(props: { value: UseDialogReturn; conf
                   props.confirmCallback();
                 }}
               >
-                Yes
+                Confirm
               </Button>
             </Dialog.Footer>
           </Dialog.Content>
