@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "preinstall": "npx only-allow pnpm"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.5.0",
@@ -39,5 +40,6 @@
     "prettier": "^3.5.3",
     "tailwindcss": "^4",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@10.10.0"
 }
