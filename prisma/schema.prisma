@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Visibility {
+  public
+  private
+  unlisted
+}
+
+model Arrangement {
+  arrangement_id   String     @id @default(uuid())
+  visibility       Visibility
+  uploaded_at      DateTime
+  uploaded_by      String
+  title            String
+  description      String
+  composers        String[]
+  arrangement_type String
+  Part             Part[]
+
+  @@map("arrangements")
+}
+
+model Part {
+  part_id            String       @id @default(uuid())
+  is_full_score      Boolean
+  name               String
+  file_path          String
+  preview_image_path String
+  Arrangement        Arrangement? @relation(fields: [arrangement_id], references: [arrangement_id])
+  arrangement_id     String?
+
+  @@map("parts")
+}
