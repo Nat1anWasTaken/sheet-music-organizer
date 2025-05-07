@@ -3,6 +3,7 @@
 import { Text } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Tab } from "@/components/navbar/navbar";
+import Link from "next/link";
 
 export function NavigationTabs(props: { tabs: Tab[] }) {
   const router = useRouter();
@@ -11,17 +12,11 @@ export function NavigationTabs(props: { tabs: Tab[] }) {
   return (
     <>
       {props.tabs.map((tab) => (
-        <Text
-          key={tab.href}
-          onClick={() => {
-            router.push(tab.href);
-          }}
-          color={tab.href === pathname ? "fg" : "fg.subtle"}
-          cursor={"pointer"}
-          _hover={{ color: "fg" }}
-        >
-          {tab.name}
-        </Text>
+        <Link href={tab.href} key={tab.href}>
+          <Text color={tab.href === pathname ? "fg" : "fg.subtle"} cursor={"pointer"} _hover={{ color: "fg" }}>
+            {tab.name}
+          </Text>
+        </Link>
       ))}
     </>
   );

@@ -24,7 +24,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={`${jetbrains.className}`}>
         <Provider>
           <Flex direction={"column"} height={"100vh"}>
-            <Navbar></Navbar>
+            <Navbar />
             <Box flex={"1"}>{children}</Box>
           </Flex>
           <Toaster />
