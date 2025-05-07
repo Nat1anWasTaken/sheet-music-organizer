@@ -1,12 +1,11 @@
 "use client";
 
 import { Text } from "@chakra-ui/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Tab } from "@/components/navbar/navbar";
 import Link from "next/link";
 
 export function NavigationTabs(props: { tabs: Tab[] }) {
-  const router = useRouter();
   const pathname = usePathname();
 
   return (
