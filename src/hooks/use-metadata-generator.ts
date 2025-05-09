@@ -8,7 +8,7 @@ import { PartInformation } from "@/app/api/utils/generate-metadata/route";
 interface UseMetadataGeneratorProps {
   files: File[];
   onSuccess: (data: { title: string; composers: string[]; arrangement_type: string; parts: PartInformation[] }) => void;
-  onFilesUpdate: (newFiles: File[]) => void;
+  fileSplitCallback: (newFiles: File[]) => void;
 }
 
 interface MetadataResponse {
@@ -20,7 +20,7 @@ interface MetadataResponse {
 
 export type GenerationStatus = "idle" | "merging_file" | "uploading" | "waiting_for_response";
 
-export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMetadataGeneratorProps) {
+export function useMetadataGenerator({ files, onSuccess, fileSplitCallback }: UseMetadataGeneratorProps) {
   const [generationStatus, setGenerationStatus] = useState<GenerationStatus>("idle");
 
   const generateMetadata = async () => {
@@ -42,7 +42,7 @@ export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMet
 
       const responsePromise = fetch("/api/utils/generate-metadata", {
         method: "POST",
-        body: form,
+        body: form
       });
 
       setGenerationStatus("waiting_for_response");
@@ -59,7 +59,7 @@ export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMet
 
       // Update files with split PDFs
       const splitFiles = await splitPdfByParts(mergedPdfBytes, data.parts);
-      onFilesUpdate(splitFiles);
+      fileSplitCallback(splitFiles);
 
       // Call success callback with the data
       onSuccess(data);
@@ -67,7 +67,7 @@ export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMet
       toaster.create({ type: "success", description: "Metadata generated successfully." });
     } catch (err) {
       console.error(err);
-      toaster.create({ type: "error", description: "Something is wrong, try again later." });
+      toaster.create({ type: "error", description: "Something is wrong, try again later." + err });
     } finally {
       setGenerationStatus("idle");
     }
@@ -75,6 +75,6 @@ export function useMetadataGenerator({ files, onSuccess, onFilesUpdate }: UseMet
 
   return {
     generationStatus,
-    generateMetadata,
+    generateMetadata
   };
 }
