@@ -17,10 +17,9 @@ enum Visibility {
 model Arrangement {
   arrangement_id   String     @id @default(uuid())
   visibility       Visibility
-  uploaded_at      DateTime
+  uploaded_at      DateTime   @default(now())
   uploaded_by      String
   title            String
-  description      String
   composers        String[]
   arrangement_type String
   Part             Part[]
