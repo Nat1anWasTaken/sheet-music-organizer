@@ -6,9 +6,9 @@ import { UploadTrayContext } from "@/components/upload/upload-tray";
 export function ConfirmUploadDialog(props: { dialog: UseDialogReturn; confirmCallback: () => void }) {
   const { dialog, confirmCallback } = props;
 
-  const fileUpload = useContext(UploadTrayContext);
+  const fileUploadTray = useContext(UploadTrayContext);
 
-  if (!fileUpload) {
+  if (!fileUploadTray) {
     throw new Error("FileUpload context is not available, perhaps you forgot to wrap the component with UploadTrayContext.Provider?");
   }
 
@@ -18,7 +18,7 @@ export function ConfirmUploadDialog(props: { dialog: UseDialogReturn; confirmCal
         <Dialog.Title>Are you sure you want to upload these files?</Dialog.Title>
       </Dialog.Header>
       <Dialog.Body>
-        <FileUpload.RootProvider value={fileUpload}>
+        <FileUpload.RootProvider value={fileUploadTray}>
           <Box overflowY={"scroll"} maxHeight={"lg"}>
             <FileUpload.Context>
               {(context) =>
