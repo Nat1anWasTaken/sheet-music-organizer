@@ -41,8 +41,8 @@ export async function splitPdfByParts(mergedPdfBytes: Uint8Array | ArrayBuffer, 
 
       const bytes = await doc.save();
       return new File([bytes], `${part.label}.pdf`, {
-        type: "application/pdf",
+        type: "application/pdf"
       });
-    }),
+    })
   );
 }
