@@ -1,8 +1,8 @@
 "use client";
 
-import { Flex } from "@chakra-ui/react";
 import UploadTray from "@/components/upload/upload-tray";
 import { useUser } from "@auth0/nextjs-auth0";
+import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 export default function UploadPage() {
