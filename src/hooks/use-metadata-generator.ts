@@ -18,10 +18,15 @@ interface MetadataResponse {
   parts: PartInformation[];
 }
 
-export type GenerationStatus = "idle" | "merging_file" | "uploading" | "waiting_for_response";
+export enum GenerationStatus {
+  Idle,
+  MergingFile = "merging_file",
+  Uploading = "uploading",
+  WaitingForResponse = "waiting_for_response",
+}
 
 export function useMetadataGenerator({ files, onSuccess, fileSplitCallback }: UseMetadataGeneratorProps) {
-  const [generationStatus, setGenerationStatus] = useState<GenerationStatus>("idle");
+  const [generationStatus, setGenerationStatus] = useState<GenerationStatus>(GenerationStatus.Idle);
 
   const generateMetadata = async () => {
     if (files.length === 0) {
@@ -29,7 +34,7 @@ export function useMetadataGenerator({ files, onSuccess, fileSplitCallback }: Us
       return;
     }
 
-    setGenerationStatus("merging_file");
+    setGenerationStatus(GenerationStatus.MergingFile);
 
     try {
       const mergedPdfBytes = await mergePDFs(files);
@@ -38,14 +43,14 @@ export function useMetadataGenerator({ files, onSuccess, fileSplitCallback }: Us
       const form = new FormData();
       form.append("files", mergedFile);
 
-      setGenerationStatus("uploading");
+      setGenerationStatus(GenerationStatus.Uploading);
 
       const responsePromise = fetch("/api/utils/generate-metadata", {
         method: "POST",
         body: form
       });
 
-      setGenerationStatus("waiting_for_response");
+      setGenerationStatus(GenerationStatus.WaitingForResponse);
 
       const res = await responsePromise;
 
@@ -69,7 +74,7 @@ export function useMetadataGenerator({ files, onSuccess, fileSplitCallback }: Us
       console.error(err);
       toaster.create({ type: "error", description: "Something is wrong, try again later." + err });
     } finally {
-      setGenerationStatus("idle");
+      setGenerationStatus(GenerationStatus.Idle);
     }
   };
 

@@ -13,14 +13,18 @@ export function GenerateOrUpload(props: GenerateOrUploadProps) {
 
   const generationStatusText = useMemo(() => {
     return {
-      idle: "Generate Metadata with AI",
-      merging_file: "Merging files...",
-      uploading: "Uploading...",
-      waiting_for_response: "Waiting for response..."
+      [GenerationStatus.Idle]: "Generate Metadata with AI",
+      [GenerationStatus.MergingFile]: "Merging files...",
+      [GenerationStatus.Uploading]: "Uploading...",
+      [GenerationStatus.WaitingForResponse]: "Waiting for response..."
     }[generationStatus];
   }, [generationStatus]);
 
-  const isGenerating = useMemo(() => ["merging_file", "uploading", "waiting_for_response"].includes(generationStatus), [generationStatus]);
+  const isGenerating = useMemo(() => [
+    GenerationStatus.MergingFile,
+    GenerationStatus.Uploading,
+    GenerationStatus.WaitingForResponse
+  ].includes(generationStatus), [generationStatus]);
 
   return (
     <HStack gap={"2"} justify={"flex-end"}>
