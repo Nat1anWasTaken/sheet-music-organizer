@@ -16,13 +16,13 @@ enum Visibility {
 
 model Arrangement {
   arrangement_id   String     @id @default(uuid())
-  visibility       Visibility
+  visibility       Visibility @default(public)
   uploaded_at      DateTime   @default(now())
   uploaded_by      String
   title            String
   composers        String[]
   arrangement_type String
-  Part             Part[]
+  Parts            Part[]
 
   @@map("arrangements")
 }
@@ -30,10 +30,10 @@ model Arrangement {
 model Part {
   part_id            String       @id @default(uuid())
   is_full_score      Boolean
-  name               String
-  preview_image_path String
+  label              String
+  preview_image_path String?
   Arrangement        Arrangement? @relation(fields: [arrangement_id], references: [arrangement_id])
-  arrangement_id     String?
+  arrangement_id     String
 
   @@map("parts")
 }
