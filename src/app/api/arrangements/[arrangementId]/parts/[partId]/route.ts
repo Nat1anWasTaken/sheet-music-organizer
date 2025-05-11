@@ -1,10 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
-import { prisma } from "@/lib/db";
 import { auth0 } from "@/lib/auth0";
 import { AccessLevel, checkAccess } from "@/lib/checkAccess";
-import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { prisma } from "@/lib/db";
 import { bucketName, storageClient } from "@/lib/s3";
+import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 
 export async function GET(context: { params: Promise<{ arrangementId: string; partId: string }> }): Promise<NextResponse> {
   const session = await auth0.getSession();
@@ -174,9 +174,18 @@ export async function DELETE(
     return NextResponse.json({ message: "Part not found" }, { status: 404 });
   }
 
-  const deleteFileCommand = new DeleteObjectCommand({
+  const deleteFileCommand = new DeleteObjectsCommand({
     Bucket: bucketName,
-    Key: `parts/${partId}`
+    Delete: {
+      Objects: [
+        {
+          Key: `parts/${partId}`
+        },
+        {
+          Key: `part-previews/${partId}`
+        }
+      ]
+    }
   });
 
   const deleteFileResult = await storageClient.send(deleteFileCommand);

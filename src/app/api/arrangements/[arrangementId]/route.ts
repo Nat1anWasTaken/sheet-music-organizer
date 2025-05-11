@@ -150,10 +150,20 @@ export async function DELETE(context: { params: Promise<{ arrangementId: string 
 
   const partsToRemoveIds = partsToRemove.map((part) => part.part_id);
 
+  const objectsToRemove = partsToRemoveIds
+    .map((partId) => ({
+      Key: `parts/${partId}`
+    }))
+    .concat(
+      ...partsToRemoveIds.map((partId) => ({
+        Key: `part-previews/${partId}`
+      }))
+    );
+
   const deletePartsCommand = new DeleteObjectsCommand({
     Bucket: bucketName,
     Delete: {
-      Objects: partsToRemoveIds.map((partId) => ({ Key: `parts/${partId}` }))
+      Objects: objectsToRemove
     }
   });
 
