@@ -10,7 +10,8 @@ export async function GET(
     params: Promise<{ arrangementId: string }>;
   }
 ): Promise<NextResponse> {
-  const { session } = await auth0.getSession();
+  const session = await auth0.getSession();
+  
   const { arrangementId } = await context.params;
 
   const { searchParams } = request.nextUrl;

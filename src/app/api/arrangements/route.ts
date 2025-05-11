@@ -1,17 +1,10 @@
-import { Visibility } from "@/generated/prisma";
+// import { Visibility } from "@/generated/prisma"; // 改用 Zod nativeEnum
 import { auth0 } from "@/lib/auth0";
 import { AccessLevel, checkAccess } from "@/lib/checkAccess";
 import { prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-
-interface CreateArrangementBody {
-  visibility: Visibility;
-  title: string;
-  composers: string[];
-  arrangementType: string;
-  uploadedBy: string;
-}
+import { Visibility } from "@/generated/prisma";
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const session = await auth0.getSession();
