@@ -2,6 +2,11 @@ import { PutBucketCorsCommand, S3Client } from "@aws-sdk/client-s3";
 
 export type StorageProvider = "r2" | "s3";
 export const bucketName = process.env.STORAGE_BUCKET_NAME || "sheet-music";
+export const storagePublicDomain = process.env.STORAGE_PUBLIC_DOMAIN;
+
+if (!storagePublicDomain) {
+  throw new Error("STORAGE_PUBLIC_DOMAIN is not set");
+}
 
 let _storageClient: S3Client | null = null;
 
