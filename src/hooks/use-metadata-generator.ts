@@ -20,9 +20,9 @@ interface MetadataResponse {
 
 export enum GenerationStatus {
   Idle,
-  MergingFile = "merging_file",
-  Uploading = "uploading",
-  WaitingForResponse = "waiting_for_response",
+  MergingFile,
+  Uploading,
+  WaitingForResponse,
 }
 
 export function useMetadataGenerator({ files, onSuccess, fileSplitCallback }: UseMetadataGeneratorProps) {

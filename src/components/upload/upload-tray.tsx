@@ -4,13 +4,19 @@ import { ConfirmUploadDialog } from "@/components/upload/dialogs/confirm-upload-
 import Dropzone from "@/components/upload/dropzone";
 import { GenerateOrUpload } from "@/components/upload/generate-or-upload";
 import MetadataForm from "@/components/upload/metadata-form";
-import { useMetadataForm } from "@/hooks/use-metadata-form";
+import { useMetadataForm, UseMetadataFormReturn } from "@/hooks/use-metadata-form";
 import { useMetadataGenerator } from "@/hooks/use-metadata-generator";
+import { useUploadArrangement } from "@/hooks/use-upload-arrangement";
 import { Box, useDialog, useFileUpload, UseFileUploadReturn, VStack } from "@chakra-ui/react";
 import { createContext } from "react";
-import { toaster } from "../ui/toaster";
+import { toaster } from "@/components/ui/toaster";
 
-export const UploadTrayContext = createContext<UseFileUploadReturn | null>(null);
+interface UploadTrayContext {
+  fileUploadTray: UseFileUploadReturn;
+  metadataForm: UseMetadataFormReturn;
+}
+
+export const UploadTrayContext = createContext<UploadTrayContext | null>(null);
 
 export default function UploadTray() {
   const fileUploadTray = useFileUpload({
@@ -18,9 +24,6 @@ export default function UploadTray() {
     maxFileSize: 100 * 1024 * 1024,
     accept: "application/pdf"
   });
-
-  const confirmGenerateDialog = useDialog();
-  const confirmUploadDialog = useDialog();
 
   const metadataForm = useMetadataForm();
 
@@ -38,28 +41,13 @@ export default function UploadTray() {
     }
   });
 
-  const uploadFiles = () => {
-    fetch("/api/arrangements", {
-      method: "POST",
-      headers: {},
-      body: JSON.stringify({
-        visibility: "public", // TODO: make this dynamic
-        title: metadataForm.formContent.title,
-        composers: metadataForm.formContent.composers.split(",").map((c) => c.trim()),
-        arrangementType: metadataForm.formContent.arrangementType
-      })
-    }).then((response) => {
-      if (response.ok) {
-        toaster.create({
-          type: "success",
-          description: "Files uploaded successfully"
-        });
-      }
-    });
-  };
+  const confirmGenerateDialog = useDialog();
+  const confirmUploadDialog = useDialog();
+
+  const { uploadStatus, createArrangementAndUploadFiles } = useUploadArrangement(fileUploadTray, metadataForm);
 
   return (
-    <UploadTrayContext.Provider value={fileUploadTray}>
+    <UploadTrayContext.Provider value={{ fileUploadTray, metadataForm }}>
       <Box width={{ base: "full", md: "xl" }} border={"solid"} borderWidth={"1px"} borderColor={"border"} p={4} rounded={"md"}>
         <VStack gap={4}>
           <Dropzone fileUpload={fileUploadTray} />
@@ -68,9 +56,24 @@ export default function UploadTray() {
             <>
               <VStack>
                 <MetadataForm value={metadataForm} />
-                <GenerateOrUpload generationStatus={generationStatus} generateCallback={() => confirmGenerateDialog.setOpen(true)} uploadCallback={() => confirmUploadDialog.setOpen(true)} />
+                <GenerateOrUpload
+                  generationStatus={generationStatus}
+                  generateCallback={() => confirmGenerateDialog.setOpen(true)}
+                  uploadStatus={uploadStatus}
+                  uploadCallback={() => confirmUploadDialog.setOpen(true)}
+                />
               </VStack>
-              <ConfirmUploadDialog dialog={confirmUploadDialog} confirmCallback={uploadFiles} />
+              <ConfirmUploadDialog
+                dialog={confirmUploadDialog}
+                confirmCallback={() => {
+                  createArrangementAndUploadFiles().catch((e) => {
+                    toaster.create({
+                      type: "error",
+                      description: e.message
+                    });
+                  });
+                }}
+              />
               <ConfirmGenerateDialog dialog={confirmGenerateDialog} confirmCallback={generateMetadata} />
             </>
           ) : (
