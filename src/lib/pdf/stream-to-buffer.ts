@@ -5,7 +5,7 @@ import { Readable } from "stream";
  * @param stream The Readable Stream to convert.
  * @returns A Promise that resolves to a Buffer containing the stream's data.
  */
-export async function streamToBuffer(stream: Readable): Promise<Buffer> {
+export default async function streamToBuffer(stream: Readable): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
     stream.on('data', (chunk) => chunks.push(chunk as Buffer));

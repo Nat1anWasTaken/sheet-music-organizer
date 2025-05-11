@@ -12,7 +12,7 @@ import { streamToBuffer } from "./stream-to-buffer";
  */
 import sharp from "sharp";
 
-export async function generatePreviewImage(
+export default async function generatePreviewImage(
   file: File | Blob,
   quality = 80
 ): Promise<Buffer> {

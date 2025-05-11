@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { toaster } from "@/components/ui/toaster";
-import { mergePDFs, splitPdfByParts } from "@/lib/pdf/utils";
+import { splitPdfByParts } from "@/lib/pdf/split-pdf-by-parts";
+import { mergePDFs } from "@/lib/pdf/merge-pdfs";
 import { PartInformation } from "@/app/api/utils/generate-metadata/route";
 
 interface UseMetadataGeneratorProps {

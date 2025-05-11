@@ -1,23 +1,6 @@
 "use client";
-
-import { PDFDocument } from "pdf-lib";
 import { PartInformation } from "@/app/api/utils/generate-metadata/route";
-
-/**
- * Merges multiple PDF files into a single PDF
- * @param files Array of PDF files to merge
- * @returns Promise resolving to a Uint8Array containing the merged PDF
- */
-export async function mergePDFs(files: File[]): Promise<Uint8Array> {
-  const merged = await PDFDocument.create();
-  for (const file of files) {
-    const arrayBuffer = await file.arrayBuffer();
-    const src = await PDFDocument.load(arrayBuffer);
-    const pages = await merged.copyPages(src, src.getPageIndices());
-    pages.forEach((page) => merged.addPage(page));
-  }
-  return merged.save();
-}
+import { default as PDFDocument } from "pdf-lib";
 
 /**
  * Splits a merged PDF into separate files based on part information
@@ -25,7 +8,8 @@ export async function mergePDFs(files: File[]): Promise<Uint8Array> {
  * @param parts Array of part information objects containing start/end pages and labels
  * @returns Promise resolving to an array of File objects
  */
-export async function splitPdfByParts(mergedPdfBytes: Uint8Array | ArrayBuffer, parts: PartInformation[]): Promise<File[]> {
+
+export default async function splitPdfByParts(mergedPdfBytes: Uint8Array | ArrayBuffer, parts: PartInformation[]): Promise<File[]> {
   const srcDoc = await PDFDocument.load(mergedPdfBytes);
 
   return Promise.all(
