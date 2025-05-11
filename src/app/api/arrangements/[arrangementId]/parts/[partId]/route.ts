@@ -3,6 +3,8 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { auth0 } from "@/lib/auth0";
 import { AccessLevel, checkAccess } from "@/lib/checkAccess";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { bucketName, storageClient } from "@/lib/s3";
 
 export async function GET(context: { params: Promise<{ arrangementId: string; partId: string }> }): Promise<NextResponse> {
   const session = await auth0.getSession();
@@ -167,6 +169,21 @@ export async function DELETE(
       arrangement_id: arrangementId
     }
   });
+
+  if (!part) {
+    return NextResponse.json({ message: "Part not found" }, { status: 404 });
+  }
+
+  const deleteFileCommand = new DeleteObjectCommand({
+    Bucket: bucketName,
+    Key: `parts/${partId}`
+  });
+
+  const deleteFileResult = await storageClient.send(deleteFileCommand);
+
+  if (deleteFileResult.$metadata.httpStatusCode !== 204) {
+    return NextResponse.json({ message: "Failed to delete part" }, { status: 500 });
+  }
 
   return NextResponse.json(part, { status: 200 });
 }

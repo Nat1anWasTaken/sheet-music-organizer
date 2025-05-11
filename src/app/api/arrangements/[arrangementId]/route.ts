@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db";
-import { z } from "zod";
 import { Visibility } from "@/generated/prisma";
-import { AccessLevel, checkAccess } from "@/lib/checkAccess";
 import { auth0 } from "@/lib/auth0";
+import { AccessLevel, checkAccess } from "@/lib/checkAccess";
+import { prisma } from "@/lib/db";
+import { bucketName, storageClient } from "@/lib/s3";
+import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 
 export async function GET(context: { params: Promise<{ arrangementId: string }> }): Promise<NextResponse> {
   const session = await auth0.getSession();
@@ -134,11 +136,32 @@ export async function DELETE(context: { params: Promise<{ arrangementId: string 
     return NextResponse.json({ message: "You don't have access to delete this arrangement." }, { status: 403 });
   }
 
-  await prisma.arrangement.delete({
-    where: {
-      arrangement_id: arrangementId
+  const [partsToRemove, _deletePartsResult, _deleteArrangementResult] = await prisma.$transaction([
+    prisma.part.findMany({
+      where: { arrangement_id: arrangementId }
+    }),
+    prisma.part.deleteMany({
+      where: { arrangement_id: arrangementId }
+    }),
+    prisma.arrangement.delete({
+      where: { arrangement_id: arrangementId }
+    })
+  ]);
+
+  const partsToRemoveIds = partsToRemove.map((part) => part.part_id);
+
+  const deletePartsCommand = new DeleteObjectsCommand({
+    Bucket: bucketName,
+    Delete: {
+      Objects: partsToRemoveIds.map((partId) => ({ Key: `parts/${partId}` }))
     }
   });
+
+  const deleteFilesResult = await storageClient.send(deletePartsCommand);
+
+  if (deleteFilesResult.$metadata.httpStatusCode !== 204) {
+    return NextResponse.json({ message: "Failed to delete parts" }, { status: 500 });
+  }
 
   return NextResponse.json(arrangement, { status: 200 });
 }
