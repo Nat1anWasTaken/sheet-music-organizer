@@ -9,7 +9,7 @@ export default function Dropzone(props: { fileUpload: ReturnType<typeof useFileU
       <FileUpload.HiddenInput />
       <FileUpload.Dropzone>
         <FileUpload.DropzoneContent>
-          {props.fileUpload.acceptedFiles.length + props.fileUpload.rejectedFiles.length <= 0 ? (
+          {props.fileUpload.acceptedFiles.length + props.fileUpload.rejectedFiles.length > 0 ? (
             <Flex justifyContent={"flex-start"} gap={4} width={"full"} height={"full"} wrap={"wrap"}>
               {props.fileUpload.acceptedFiles.map((file, index) => (
                 <FileItem key={index} file={file} accepted={true} />
