@@ -1,5 +1,5 @@
 "use client";
-import { default as PDFDocument } from "pdf-lib";
+import { PDFDocument } from "pdf-lib";
 
 /**
  * Merges multiple PDF files into a single PDF

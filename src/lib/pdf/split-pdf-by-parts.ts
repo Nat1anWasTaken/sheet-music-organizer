@@ -1,6 +1,6 @@
 "use client";
 import { PartInformation } from "@/app/api/utils/generate-metadata/route";
-import { default as PDFDocument } from "pdf-lib";
+import { PDFDocument } from "pdf-lib";
 
 /**
  * Splits a merged PDF into separate files based on part information

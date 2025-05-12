@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { toaster } from "@/components/ui/toaster";
-import { splitPdfByParts } from "@/lib/pdf/split-pdf-by-parts";
-import { mergePDFs } from "@/lib/pdf/merge-pdfs";
 import { PartInformation } from "@/app/api/utils/generate-metadata/route";
+import mergePDFs from "@/lib/pdf/merge-pdfs";
+import splitPdfByParts from "@/lib/pdf/split-pdf-by-parts";
 
 interface UseMetadataGeneratorProps {
   files: File[];
@@ -23,7 +23,7 @@ export enum GenerationStatus {
   Idle,
   MergingFile,
   Uploading,
-  WaitingForResponse,
+  WaitingForResponse
 }
 
 export function useMetadataGenerator({ files, onSuccess, fileSplitCallback }: UseMetadataGeneratorProps) {
