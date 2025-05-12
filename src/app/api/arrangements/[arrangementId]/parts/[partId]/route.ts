@@ -6,7 +6,7 @@ import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-export async function GET(context: { params: Promise<{ arrangementId: string; partId: string }> }): Promise<NextResponse> {
+export async function GET(request: NextRequest, context: { params: Promise<{ arrangementId: string; partId: string }> }): Promise<NextResponse> {
   const session = await auth0.getSession();
 
   const { arrangementId, partId } = await context.params;

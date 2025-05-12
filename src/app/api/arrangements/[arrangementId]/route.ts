@@ -4,11 +4,13 @@ import { AccessLevel, checkAccess } from "@/lib/checkAccess";
 import { prisma } from "@/lib/db";
 import { bucketName, storageClient } from "@/lib/s3";
 import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-export async function GET(context: { params: Promise<{ arrangementId: string }> }): Promise<NextResponse> {
+export async function GET(request: NextRequest, context: { params: Promise<{ arrangementId: string }> }): Promise<NextResponse> {
   const session = await auth0.getSession();
+
+  console.log(await context)
 
   const { arrangementId } = await context.params;
 
@@ -29,7 +31,7 @@ export async function GET(context: { params: Promise<{ arrangementId: string }> 
   return NextResponse.json(arrangement, { status: 200 });
 }
 
-export async function PUT(context: { params: Promise<{ arrangementId: string }>; request: Request }): Promise<NextResponse> {
+export async function PUT(request: NextRequest, context: { params: Promise<{ arrangementId: string }>; request: Request }): Promise<NextResponse> {
   const session = await auth0.getSession();
 
   const { arrangementId } = await context.params;
@@ -73,7 +75,7 @@ export async function PUT(context: { params: Promise<{ arrangementId: string }>;
   return NextResponse.json(arrangement, { status: 200 });
 }
 
-export async function PATCH(context: { params: Promise<{ arrangementId: string }>; request: Request }): Promise<NextResponse> {
+export async function PATCH(request: NextRequest, context: { params: Promise<{ arrangementId: string }>; request: Request }): Promise<NextResponse> {
   const session = await auth0.getSession();
 
   const { arrangementId } = await context.params;
@@ -117,7 +119,7 @@ export async function PATCH(context: { params: Promise<{ arrangementId: string }
   return NextResponse.json(updatedArrangement, { status: 200 });
 }
 
-export async function DELETE(context: { params: Promise<{ arrangementId: string }> }): Promise<NextResponse> {
+export async function DELETE(request: NextRequest, context: { params: Promise<{ arrangementId: string }> }): Promise<NextResponse> {
   const session = await auth0.getSession();
 
   const { arrangementId } = await context.params;
