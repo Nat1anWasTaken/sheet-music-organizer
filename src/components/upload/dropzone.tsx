@@ -9,15 +9,7 @@ export default function Dropzone(props: { fileUpload: ReturnType<typeof useFileU
       <FileUpload.HiddenInput />
       <FileUpload.Dropzone>
         <FileUpload.DropzoneContent>
-          {props.fileUpload.acceptedFiles.length + props.fileUpload.rejectedFiles.length == 0 ? (
-            <>
-              <Icon size="md" color="fg.muted">
-                <Box className={"material-symbols-outlined"}>upload</Box>
-              </Icon>
-              <Box>Drag and drop files here</Box>
-              <Box color="fg.muted">.pdf up to 100 MB per file</Box>
-            </>
-          ) : (
+          {props.fileUpload.acceptedFiles.length + props.fileUpload.rejectedFiles.length <= 0 ? (
             <Flex justifyContent={"flex-start"} gap={4} width={"full"} height={"full"} wrap={"wrap"}>
               {props.fileUpload.acceptedFiles.map((file, index) => (
                 <FileItem key={index} file={file} accepted={true} />
@@ -26,6 +18,14 @@ export default function Dropzone(props: { fileUpload: ReturnType<typeof useFileU
                 <FileItem key={index} file={file.file} accepted={false} />
               ))}
             </Flex>
+          ) : (
+            <>
+              <Icon size="md" color="fg.muted">
+                <Box className={"material-symbols-outlined"}>upload</Box>
+              </Icon>
+              <Box>Drag and drop files here</Box>
+              <Box color="fg.muted">.pdf up to 100 MB per file</Box>
+            </>
           )}
         </FileUpload.DropzoneContent>
       </FileUpload.Dropzone>
