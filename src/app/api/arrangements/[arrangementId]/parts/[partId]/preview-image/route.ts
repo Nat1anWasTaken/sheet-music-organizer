@@ -55,9 +55,8 @@ export async function GET(
       return NextResponse.json({ message: "Failed to fetch part file" }, { status: 500 });
     }
 
-    const fileBlob = await fetchFileResponse.blob();
-    const previewImageBuffer = await generatePreviewImage(fileBlob);
-    console.log(previewImageBuffer);
+    const fileBuffer = await fetchFileResponse.arrayBuffer();
+    const previewImageBuffer = await generatePreviewImage(Buffer.from(fileBuffer));
 
     const uploadPreviewImageCommand = new PutObjectCommand({
       Bucket: bucketName,
