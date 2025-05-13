@@ -1,7 +1,7 @@
 import { Button, Dialog, Portal, UseDialogReturn } from "@chakra-ui/react";
 import { ReactNode, useRef } from "react";
 
-export default function ConfirmDialog(props: { value: UseDialogReturn; confirmCallback: () => void; children: ReactNode }) {
+export default function ConfirmDialog(props: { value: UseDialogReturn; confirmCallback?: () => void; children: ReactNode }) {
   const ref = useRef(null);
 
   return (
