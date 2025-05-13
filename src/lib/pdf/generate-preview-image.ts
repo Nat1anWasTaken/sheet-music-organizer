@@ -1,27 +1,31 @@
 "use server";
 
 import pdf from "pdf-thumbnail";
-import { PassThrough } from "stream";
-import { streamToBuffer } from "./stream-to-buffer";
 
-/**
- * Generates a preview image from a PDF file
- * @param file The PDF file or Blob to generate a preview from
- * @param quality Quality of the output JPEG
- * @returns A promise that resolves to a Buffer containing the JPEG image
- */
-import sharp from "sharp";
 
-export default async function generatePreviewImage(
-  file: File | Blob,
-  quality = 80
-): Promise<Buffer> {
-  const arrayBuffer = await file.arrayBuffer();
-  const pdfBuffer = Buffer.from(arrayBuffer);
+export async function generatePreviewImage(pdfBuffer: Buffer): Promise<Buffer> {
+  const previewImageBuffer = await pdf(
+    pdfBuffer,
+    {
+      compress: {
+        type: "jpeg",
+        quality: 70
+      }
 
-  const jpegBuffer = await sharp(pdfBuffer, { density: 150 })
-    .jpeg({ quality })
-    .toBuffer();
+    }
+  )
 
-  return jpegBuffer;
+  const buffer = await streamToBuffer(previewImageBuffer);
+
+  return buffer;
+}
+
+async function streamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
+  const chunks: Buffer[] = [];
+
+  return new Promise((resolve, reject) => {
+    stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+    stream.on("end", () => resolve(Buffer.concat(chunks)));
+    stream.on("error", (error) => reject(error));
+  });
 }
