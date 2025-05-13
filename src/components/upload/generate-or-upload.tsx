@@ -1,5 +1,5 @@
-import { GenerationStatus } from "@/hooks/use-metadata-generator";
-import { UploadStatus } from "@/hooks/use-upload-arrangement";
+import { GenerationStatus } from "@/hooks/upload/use-metadata-generator";
+import { UploadStatus } from "@/hooks/upload/use-upload-arrangement";
 import { Button, HStack } from "@chakra-ui/react";
 import { useMemo } from "react";
 

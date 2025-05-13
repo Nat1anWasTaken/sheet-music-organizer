@@ -10,7 +10,12 @@ export default function UploadPage() {
   const router = useRouter();
 
   if (!user && !isLoading) {
+    // Redirect to login page
     router.push("/auth/login");
+  }
+
+  if (isLoading) {
+    throw new Promise(() => {});
   }
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { Field, Fieldset, Input } from "@chakra-ui/react";
-import { UseMetadataFormReturn } from "@/hooks/use-metadata-form";
+import { UseMetadataFormReturn } from "@/hooks/upload/use-metadata-form";
 
 interface MetadataFormProps {
   value: UseMetadataFormReturn;

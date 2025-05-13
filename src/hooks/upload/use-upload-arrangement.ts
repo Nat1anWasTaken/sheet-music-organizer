@@ -60,7 +60,7 @@ async function createAndUploadPart(arrangementId: string, file: File) {
   if (!uploadResponse.ok) {
     throw new Error("Failed to upload file");
   }
-  
+
   return part;
 }
 

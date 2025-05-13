@@ -4,9 +4,9 @@ import { ConfirmUploadDialog } from "@/components/upload/dialogs/confirm-upload-
 import Dropzone from "@/components/upload/dropzone";
 import { GenerateOrUpload } from "@/components/upload/generate-or-upload";
 import MetadataForm from "@/components/upload/metadata-form";
-import { useMetadataForm, UseMetadataFormReturn } from "@/hooks/use-metadata-form";
-import { useMetadataGenerator } from "@/hooks/use-metadata-generator";
-import { useUploadArrangement } from "@/hooks/use-upload-arrangement";
+import { useMetadataForm, UseMetadataFormReturn } from "@/hooks/upload/use-metadata-form";
+import { useMetadataGenerator } from "@/hooks/upload/use-metadata-generator";
+import { useUploadArrangement } from "@/hooks/upload/use-upload-arrangement";
 import { Box, useDialog, useFileUpload, UseFileUploadReturn, VStack } from "@chakra-ui/react";
 import { createContext } from "react";
 import { toaster } from "@/components/ui/toaster";
