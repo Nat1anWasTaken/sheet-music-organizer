@@ -31,7 +31,6 @@ model Part {
   part_id            String       @id @default(uuid())
   is_full_score      Boolean
   label              String
-  preview_image_path String?
   Arrangement        Arrangement? @relation(fields: [arrangement_id], references: [arrangement_id])
   arrangement_id     String
 
