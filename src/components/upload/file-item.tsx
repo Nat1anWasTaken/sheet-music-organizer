@@ -2,6 +2,7 @@
 
 import { Box, FileUpload, Float, VStack } from "@chakra-ui/react";
 import { downloadFile } from "@/lib/utils";
+import MaterialIcon from "../ui/material-icon";
 
 export default function FileItem(props: { file: File; accepted: boolean }) {
   const { file, accepted } = props;
@@ -15,7 +16,7 @@ export default function FileItem(props: { file: File; accepted: boolean }) {
 
       <Float placement="top-end">
         <FileUpload.ItemDeleteTrigger>
-          <Box className={"material-symbols-outlined"}>close</Box>
+          <MaterialIcon icon={"close"} />
         </FileUpload.ItemDeleteTrigger>
       </Float>
 

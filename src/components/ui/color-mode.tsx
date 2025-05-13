@@ -5,6 +5,7 @@ import { Box, ClientOnly, IconButton, Skeleton, Span } from "@chakra-ui/react";
 import { ThemeProvider, useTheme } from "next-themes";
 import type { ThemeProviderProps } from "next-themes";
 import * as React from "react";
+import MaterialIcon from "./material-icon";
 
 export type ColorModeProviderProps = ThemeProviderProps;
 
@@ -39,7 +40,7 @@ export function useColorModeValue<T>(light: T, dark: T) {
 
 export function ColorModeIcon() {
   const { colorMode } = useColorMode();
-  return colorMode === "dark" ? <Box className={"material-symbols-outlined"}>light_mode</Box> : <Box className={"material-symbols-outlined"}>dark_mode</Box>;
+  return colorMode === "dark" ? <MaterialIcon icon="dark_mode" /> : <MaterialIcon icon="light_mode" />;
 }
 
 type ColorModeButtonProps = Omit<IconButtonProps, "aria-label">;

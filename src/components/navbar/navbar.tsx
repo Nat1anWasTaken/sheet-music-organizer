@@ -1,17 +1,17 @@
-import { Box, Button, Flex, Heading, HStack, Icon, LinkOverlay, Text } from "@chakra-ui/react";
-import { ColorModeButton } from "@/components/ui/color-mode";
 import AvatarOrLogin from "@/components/navbar/avatar-or-login";
-import { NavigationTabs } from "@/components/navbar/navigation-tabs";
 import { MobileNavigationDrawer } from "@/components/navbar/mobile-navigation-drawer";
-import { redirect } from "next/navigation";
+import { NavigationTabs } from "@/components/navbar/navigation-tabs";
 import UploadButton from "@/components/navbar/upload-button";
+import { ColorModeButton } from "@/components/ui/color-mode";
+import { Box, Flex, Heading, HStack } from "@chakra-ui/react";
+import Link from "next/link";
 
 export type Tab = { name: string; href: string };
 
 export const tabs: Tab[] = [
   { name: "Home", href: "/" },
   { name: "Library", href: "/library" },
-  { name: "Settings", href: "/settings" },
+  { name: "Settings", href: "/settings" }
 ];
 
 export default function Navbar() {
@@ -24,11 +24,10 @@ export default function Navbar() {
           {/* TODO: Logo */}
         </HStack>
         <HStack gap={4} display={{ base: "none", md: "flex" }}>
-          <LinkOverlay href={"/"}>
-            <Heading as={"h1"} size={"lg"} display={{ base: "none", md: "inline" }} color={"fg"}>
-              Sheet Music Organizer
-            </Heading>
-          </LinkOverlay>
+          <Heading as={"h1"} size={"lg"} display={{ base: "none", md: "inline" }} color={"fg"}>
+            <Link href={"/"}>Sheet Music Organizer</Link>
+          </Heading>
+          
           <NavigationTabs tabs={tabs} />
         </HStack>
 

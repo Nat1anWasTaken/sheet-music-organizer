@@ -1,16 +1,14 @@
 "use client";
 
-import { Box, Button, Icon, LinkOverlay, Text } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import MaterialIcon from "../ui/material-icon";
 
 export default function UploadButton() {
   return (
     <Link href={"/upload"}>
       <Button variant={"outline"}>
-        <Icon>
-          <Box className={"material-symbols-outlined"}>upload</Box>
-        </Icon>
+        <MaterialIcon icon={"upload"} />
         <Text userSelect={"none"}>Upload</Text>
       </Button>
     </Link>

@@ -3,6 +3,7 @@
 import { Avatar, Box, Button, Icon, Link, Menu, Portal, Text } from "@chakra-ui/react";
 import { useUser } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/navigation";
+import MaterialIcon from "../ui/material-icon";
 
 export default function AvatarOrLogin() {
   const { user } = useUser();
@@ -32,7 +33,7 @@ export default function AvatarOrLogin() {
   ) : (
     <Button variant={"outline"} onClick={() => router.push("/auth/login")}>
       <Icon>
-        <Box className={"material-symbols-outlined"}>account_circle</Box>
+        <MaterialIcon icon={"account_circle"} />
       </Icon>
       <Text userSelect={"none"}>Login</Text>
     </Button>

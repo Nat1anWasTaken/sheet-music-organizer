@@ -4,6 +4,7 @@ import { Box, CloseButton, Drawer, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { tabs } from "@/components/navbar/navbar";
+import MaterialIcon from "../ui/material-icon";
 
 export function MobileNavigationDrawer(props: { tabs: typeof tabs }) {
   const router = useRouter();
@@ -15,7 +16,7 @@ export function MobileNavigationDrawer(props: { tabs: typeof tabs }) {
     <Drawer.Root size={"xs"} placement={"start"} open={isOpen} onOpenChange={(e) => setIsOpen(e.open)}>
       <Drawer.Backdrop />
       <Drawer.Trigger>
-        <Box className={"material-symbols-outlined"}>menu</Box>
+        <MaterialIcon icon={"menu"} />
       </Drawer.Trigger>
       <Drawer.Positioner>
         <Drawer.Content>
