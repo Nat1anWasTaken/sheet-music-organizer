@@ -19,7 +19,7 @@ export async function createArrangement(arrangementData: CreateArrangementBody):
   return (await response.json()) as Arrangement;
 }
 
-export async function getArrangements(searchParams: GetArrangementsSearchParams): Promise<Arrangement[]> {
+export async function getArrangements(searchParams?: GetArrangementsSearchParams): Promise<Arrangement[]> {
   const queryString = new URLSearchParams(searchParams as any).toString();
   const response = await fetch(`/api/arrangements?${queryString}`, {
     method: "GET",
