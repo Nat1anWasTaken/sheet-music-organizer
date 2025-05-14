@@ -1,8 +1,8 @@
+import { createPartBody, getPartsSearchParams } from "@/lib/api/types/parts";
 import { auth0 } from "@/lib/auth0";
 import { AccessLevel, checkAccess } from "@/lib/checkAccess";
 import { prisma } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 
 export async function GET(
   request: NextRequest,
@@ -11,17 +11,12 @@ export async function GET(
   }
 ): Promise<NextResponse> {
   const session = await auth0.getSession();
-  
+
   const { arrangementId } = await context.params;
 
   const { searchParams } = request.nextUrl;
 
-  const searchQueryParseResult = z
-    .object({
-      label: z.string().optional(),
-      is_full_score: z.string().optional()
-    })
-    .safeParse(searchParams);
+  const searchQueryParseResult = getPartsSearchParams.safeParse(searchParams);
 
   if (!searchQueryParseResult.success) {
     return NextResponse.json({ message: "Invalid search parameters" + searchQueryParseResult.error }, { status: 400 });
@@ -64,12 +59,7 @@ export async function POST(
 
   const { arrangementId } = await context.params;
 
-  const bodyParseResult = z
-    .object({
-      label: z.string(),
-      is_full_score: z.boolean()
-    })
-    .safeParse(await request.json());
+  const bodyParseResult = createPartBody.safeParse(await request.json());
 
   if (!bodyParseResult.success) {
     return NextResponse.json({ message: "Invalid request body" }, { status: 400 });

@@ -1,10 +1,10 @@
+import { updatePartBody } from "@/lib/api/types/parts";
 import { auth0 } from "@/lib/auth0";
 import { AccessLevel, checkAccess } from "@/lib/checkAccess";
 import { prisma } from "@/lib/db";
 import { bucketName, storageClient } from "@/lib/s3";
 import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 
 export async function GET(request: NextRequest, context: { params: Promise<{ arrangementId: string; partId: string }> }): Promise<NextResponse> {
   const session = await auth0.getSession();
@@ -49,12 +49,7 @@ export async function PUT(
 
   const { arrangementId, partId } = await context.params;
 
-  const bodyParseResult = z
-    .object({
-      label: z.string(),
-      is_full_score: z.boolean()
-    })
-    .safeParse(await request.json());
+  const bodyParseResult = updatePartBody.safeParse(await request.json());
 
   if (!bodyParseResult.success) {
     return NextResponse.json({ message: "Invalid request body" }, { status: 400 });
@@ -101,12 +96,7 @@ export async function PATCH(
 
   const { arrangementId, partId } = await context.params;
 
-  const bodyParseResult = z
-    .object({
-      label: z.string().optional(),
-      is_full_score: z.boolean().optional()
-    })
-    .safeParse(await request.json());
+  const bodyParseResult = updatePartBody.safeParse(await request.json());
 
   if (!bodyParseResult.success) {
     return NextResponse.json({ message: "Invalid request body" }, { status: 400 });

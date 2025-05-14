@@ -1,16 +1,15 @@
-import { Visibility } from "@/generated/prisma";
+import { updateArrangementBody } from "@/lib/api/types/arrangements";
 import { auth0 } from "@/lib/auth0";
 import { AccessLevel, checkAccess } from "@/lib/checkAccess";
 import { prisma } from "@/lib/db";
 import { bucketName, storageClient } from "@/lib/s3";
 import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 
 export async function GET(request: NextRequest, context: { params: Promise<{ arrangementId: string }> }): Promise<NextResponse> {
   const session = await auth0.getSession();
 
-  console.log(await context)
+  console.log(await context);
 
   const { arrangementId } = await context.params;
 
@@ -36,14 +35,7 @@ export async function PUT(request: NextRequest, context: { params: Promise<{ arr
 
   const { arrangementId } = await context.params;
 
-  const bodyParseResult = z
-    .object({
-      title: z.string(),
-      composers: z.array(z.string()),
-      arrangementType: z.string(),
-      visibility: z.enum([Visibility.public, Visibility.private, Visibility.unlisted])
-    })
-    .safeParse(await context.request.json());
+  const bodyParseResult = updateArrangementBody.safeParse(await context.request.json());
 
   if (!bodyParseResult.success) {
     return NextResponse.json({ message: "Invalid request body" + bodyParseResult.error }, { status: 400 });
@@ -80,14 +72,7 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ a
 
   const { arrangementId } = await context.params;
 
-  const bodyParseResult = z
-    .object({
-      title: z.string().optional(),
-      visibility: z.enum([Visibility.public, Visibility.private, Visibility.unlisted]).optional(),
-      composers: z.array(z.string()).optional(),
-      arrangementType: z.string().optional()
-    })
-    .safeParse(await context.request.json());
+  const bodyParseResult = updateArrangementBody.safeParse(await context.request.json());
 
   if (!bodyParseResult.success) {
     return NextResponse.json({ message: "Invalid request body" + bodyParseResult.error }, { status: 400 });
