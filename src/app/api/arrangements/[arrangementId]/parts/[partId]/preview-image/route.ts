@@ -1,5 +1,5 @@
 import { auth0 } from "@/lib/auth0";
-import { AccessLevel, checkAccess } from "@/lib/checkAccess";
+import { AccessLevel, checkAccess } from "@/lib/check-access";
 import { prisma } from "@/lib/db";
 import { generatePreviewImage } from "@/lib/pdf/generate-preview-image";
 import { bucketName, storageClient, storagePublicDomain } from "@/lib/s3";
@@ -42,7 +42,7 @@ export async function GET(
   }
 
   const getPreviewResponse = await fetch(`${storagePublicDomain}/part-previews/${partId}`, {
-    method: "GET"
+    method: "HEAD"
   });
 
   if (getPreviewResponse.status === 404) {

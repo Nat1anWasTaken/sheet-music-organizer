@@ -1,6 +1,6 @@
 import { updatePartBody } from "@/lib/api/types/parts";
 import { auth0 } from "@/lib/auth0";
-import { AccessLevel, checkAccess } from "@/lib/checkAccess";
+import { AccessLevel, checkAccess } from "@/lib/check-access";
 import { prisma } from "@/lib/db";
 import { bucketName, storageClient } from "@/lib/s3";
 import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
