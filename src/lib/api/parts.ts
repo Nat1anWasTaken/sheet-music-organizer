@@ -19,7 +19,7 @@ export async function createPart(partData: CreatePartBody): Promise<Part> {
   return (await response.json()) as Part;
 }
 
-export async function getParts(searchParams: any): Promise<Part[]> {
+export async function getParts(searchParams?: GetPartsSearchParams): Promise<Part[]> {
   const queryString = new URLSearchParams(searchParams as any).toString();
   const response = await fetch(`/api/arrangements/[arrangementId]/parts?${queryString}`, {
     method: "GET",
